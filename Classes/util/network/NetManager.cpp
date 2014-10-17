@@ -80,7 +80,7 @@ void NetManager::test ()
 //    CCLOG ("%s", this->_url.c_str());
     //std::string url =
     std::string url = std::string (this->_url.c_str());
-    url.append("/apiResource/lastResource");
+    url.append("/apiname/methodname");
     CCLOG ("%s", url.c_str());
     cocos2d::network::HttpRequest* request = new cocos2d::network::HttpRequest();
     request->setUrl(url.c_str());
@@ -88,7 +88,7 @@ void NetManager::test ()
     request->setResponseCallback(CC_CALLBACK_2(NetManager::onHttpRequestCompleted, this));
     
     // write the post data
-    const char* postData = "_user_id=1&_app_id=11000020&_app_ver=1.0.0&_device=pc&_os=I&_market=I&_uuid=1DA58672-65B1-41A0-9470-717FBAE1561A&_lang=JP&_device_model=pc&_graphic_device=pc&_proccessor=pc&_memory_size=22222222&_enc_type=0&device=I&app_version=1.0.0";
+    const char* postData = "param01=value01&param02=value01";
     request->setRequestData(postData, strlen(postData));
     cocos2d::network::HttpClient::getInstance()->send(request);
     request->release();

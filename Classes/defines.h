@@ -21,12 +21,12 @@
 #define kDEBUG_MODE 1
 
 #if kDEBUG_MODE == 1
-#define kURL "http://x-native.thiefstory.love-dev.pgasp.jp"
+#define kURL "http://urlrul"
 #else
-#define kURL "http://native.thiefstory.love-dev.pgasp.jp"
+#define kURL "http://urlurl-release"
 #endif
 
-#define kENC_KEY "zappy20140529"
+#define kENC_KEY "enckey123412421"
 
 #endif
 
