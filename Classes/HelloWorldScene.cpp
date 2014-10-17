@@ -2,6 +2,8 @@
 
 #include "defines.h"
 
+#include "GameScene.h"
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -104,8 +106,14 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 // テストイベント、ここで通信を試してみる
 void HelloWorld::menuNetworkTest(Ref* pSender)
 {
-	// MessageBox("zzzzzz","HOHOHO");
-    NetManager* netmgr = NetManager::getInstance();
-    netmgr->test();
+    // create a scene. it's an autorelease object
+    auto scene = GameScene::createScene();
+
+    // run
+    Director::getInstance()->replaceScene(scene);
+    
+//	// MessageBox("zzzzzz","HOHOHO");
+//    NetManager* netmgr = NetManager::getInstance();
+//    netmgr->test();
 	return;
 }
