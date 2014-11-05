@@ -75,6 +75,16 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     this->addChild(label, 1);
+    
+    // なんか背景を表示
+    //CCSpriteクラスを初期化しています。
+    auto sprite = Sprite::create("top.jpg");
+    SpriteFrame* frame = sprite->getSpriteFrame();
+    Size size = frame->getOriginalSize();
+    sprite->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
+    sprite->setScale(visibleSize.width/size.width);
+
+    this->addChild(sprite, 0);
 
 //    // add "HelloWorld" splash screen"
 //    auto sprite = Sprite::create("HelloWorld.png");
