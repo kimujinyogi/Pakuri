@@ -1,9 +1,7 @@
 #include "HelloWorldScene.h"
-
 #include "defines.h"
-
 #include "GameScene.h"
-
+// I'm comming
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
