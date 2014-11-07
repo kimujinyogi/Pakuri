@@ -12,7 +12,6 @@
 #include "spine/Json.h"
 
 
-
 NetManager* NetManager::m_instance = NULL;
 
 // --------------------------------
