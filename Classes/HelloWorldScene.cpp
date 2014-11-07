@@ -13,6 +13,8 @@ Scene* HelloWorld::createScene()
     auto layer = HelloWorld::create();
 
     // add layer as a child to scene
+    
+    
     scene->addChild(layer);
 
     // return the scene
