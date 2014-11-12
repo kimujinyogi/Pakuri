@@ -33,6 +33,13 @@ bool HelloWorld::init()
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    CCLOG("%f, %f", visibleSize.width, visibleSize.height);
+    CCLOG("%f, %f", origin.x, origin.y);
+    
+    auto text = Label::createWithSystemFont("Touch Layer", "HiraKakuProN-W6", 48);
+    text->setPosition(Point(300, 200));
+    this->addChild(text);
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program

@@ -31,6 +31,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setOpenGLView(glview);
     }
 
+    // デザイン解像度を設定する
+    // 1136 x 640 (iphone5サイズ)		71 : 40 (16 : 9 )
+    glview->setDesignResolutionSize(640, 1136, ResolutionPolicy::SHOW_ALL);
+    
     // turn on display FPS
     director->setDisplayStats(true);
 
