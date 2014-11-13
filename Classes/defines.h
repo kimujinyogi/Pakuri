@@ -28,6 +28,19 @@
 
 #define kENC_KEY "enckey123412421"
 
+#define kFONT_NORMAL "Marker Felt.ttf"
+
 #endif
 
 #include "NetManager.h"
+
+
+
+
+
+
+
+
+
+
+
