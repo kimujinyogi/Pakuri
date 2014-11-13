@@ -1,3 +1,9 @@
 .DS_Store
 
 Resources/.DS_Store
+
+.DS_Store
+
+proj.ios_mac/.DS_Store
+
+*.xcuserstate
