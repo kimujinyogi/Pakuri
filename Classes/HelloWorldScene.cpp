@@ -1,11 +1,16 @@
 #include "HelloWorldScene.h"
 #include "defines.h"
 #include "GameScene.h"
+
+//#include "cocostudio/CocoStudio.h"
+
+
 // I'm comming
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
+    
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
@@ -128,6 +133,10 @@ void HelloWorld::menuNetworkTest(Ref* pSender)
 
     // run
     Director::getInstance()->replaceScene(scene);
+    
+    // CocosStudioのLayout読み込み
+//    auto layout = cocostudio::GUIReader::getInstance()->widgetFromBinaryFile("studio/Default/MainScene.csb");
+//    this->addChild(layout);
     
 //	// MessageBox("zzzzzz","HOHOHO");
 //    NetManager* netmgr = NetManager::getInstance();
