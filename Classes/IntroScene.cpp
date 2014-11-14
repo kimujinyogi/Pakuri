@@ -1,14 +1,14 @@
 #include "IntroScene.h"
 #include "defines.h"
 
-#include "HelloWorldScene.h"
+#include "GameReadyMenuScene.h"
 
 //#include "cocostudio/CocoStudio.h"
 
 // I'm comming
 USING_NS_CC;
 
-#define kINTRO_COUNTTIME 5
+#define kINTRO_COUNTTIME 0
 
 Scene* IntroScene::createScene()
 {
@@ -41,22 +41,13 @@ bool IntroScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    
-    
-    auto label = Label::createWithTTF("Intro Scene", kFONT_NORMAL, 40);
-    // position the label on the center of the screen
-    label->setPosition(Vec2(visibleSize.width * 0.5f,
-                            visibleSize.height * 0.5f));
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-    
     // ３秒をカウントしてみる
     // これを使ってゲーム開始時のスタートを実装しよう
     this->iCount = kINTRO_COUNTTIME;
     
     this->labelCount = Label::createWithTTF("", kFONT_NORMAL, 30);
     this->labelCount->setAlignment(cocos2d::TextHAlignment::CENTER);
-    this->labelCount->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.25f);
+    this->labelCount->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
     this->addChild(this->labelCount, 1);
     
     this->startCount();
@@ -106,6 +97,6 @@ void IntroScene::startCount ()
 
 void IntroScene::moveNextScene ()
 {
-    auto scene = HelloWorld::createScene();
+    auto scene = GameReadyMenuScene::createScene();
     Director::getInstance()->replaceScene(scene);
 }
