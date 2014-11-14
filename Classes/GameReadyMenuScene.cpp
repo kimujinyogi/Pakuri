@@ -89,11 +89,20 @@ bool GameReadyMenuScene::init()
     
     
     // スコア＋＋切り替えボタン
+    auto labelOn = Label::createWithTTF("SCORE ON", kFONT_NORMAL, 30);
+    auto labelOff = Label::createWithTTF("SCORE OFF", kFONT_NORMAL, 30);
+    auto btnSwith01 = ControlSwitch::create(NULL, NULL, NULL, NULL, labelOn, labelOff);
+    this->addChild(btnSwith01);
     // コイン＋＋切り替えボタン
+    
     // 経験値＋＋切り替えボタン
+    
     // 時間＋＋切り替えボタン
+    
     // 爆弾＋＋切り替えボタン
+    
     // 種類＋＋切り替えボタン
+    
     
     return true;
 }
