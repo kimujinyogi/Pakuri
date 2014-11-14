@@ -70,17 +70,21 @@ bool GameReadyMenuScene::init()
     this->addChild(this->pLabelExp, 1);
 
     // 戻るボタン (今は意味がない)
-    label = Label::createWithTTF("GameReadyMenu", kFONT_NORMAL, 40);
-    auto itemLabel = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::movePrevScene, this));
+    label = Label::createWithTTF("Modoru", kFONT_NORMAL, 30);
+    auto itemLabel0 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::movePrevScene, this));
+    itemLabel0->setPositionX(-200.0f);
     // スタートボタン
-    
+    label = Label::createWithTTF("Start", kFONT_NORMAL, 30);
+    auto itemLabel1 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::moveNextScene, this));
     // ツム管理画面へ移動するボタン (今は意味がない)
-    
+    label = Label::createWithTTF("Manage", kFONT_NORMAL, 30);
+    auto itemLabel2 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::moveManageScene, this));
+    itemLabel2->setPositionX(200.0f);
     //メニューの作成　pMenuの中にpBtnItemを入れる
-    Menu* pMenu = Menu::create(itemLabel, NULL);
+    Menu* pMenu = Menu::create(itemLabel0, itemLabel1, itemLabel2, NULL);
     
     //pMenuを画面中央に配置
-    pMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
+    pMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.1f));
     this->addChild(pMenu);
     
     
