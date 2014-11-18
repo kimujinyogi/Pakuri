@@ -38,6 +38,16 @@ namespace GameInfo {
         
     }
     
+    bool GameItemStatus::checkItemFlag (enum ItemFlag flag)
+    {
+        return this->m_bsFlag[flag];
+    }
+    
+    void GameItemStatus::changeFlag (enum ItemFlag flag)
+    {
+        this->m_bsFlag.flip(flag);
+    }
+    
     
     // --------------------------------
     // private

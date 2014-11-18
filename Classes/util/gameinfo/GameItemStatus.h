@@ -11,6 +11,7 @@
 
 #include "base/CCRef.h"
 #include "cocos2d.h"
+#include "GameInfoDefine.h"
 
 namespace GameInfo {
     class GameItemStatus : public cocos2d::Ref
@@ -20,20 +21,11 @@ namespace GameInfo {
         GameItemStatus ();
         ~GameItemStatus ();
 
+        bool checkItemFlag (enum ItemFlag flag);
+        void changeFlag (enum ItemFlag flag);
     private:
         // アイテムを使った状態であるか
-        // スコア＋＋
-        bool m_bUsedScore;
-        // コイン＋＋
-        bool m_bUsedCoin;
-        // 経験値＋＋
-        bool m_bUsedExp;
-        // 時間＋＋
-        bool m_bUsedTime;
-        // 爆弾＋＋
-        bool m_bUsedBomb;
-        // 種類＋＋
-        bool m_bUsedType;
+        std::bitset <ItemFlag::MAX> m_bsFlag;
     };
 }
 

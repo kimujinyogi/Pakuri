@@ -1,6 +1,7 @@
 #include "GameReadyMenuScene.h"
 #include "defines.h"
 
+#include "UseMenuItemLabel.h"
 #include "GameScene.h"
 
 //#include "cocostudio/CocoStudio.h"
@@ -10,6 +11,24 @@ USING_NS_CC;
 
 #define kINTRO_COUNTTIME 5
 
+#define kSTR_MODORU "Modoru"
+#define KSTR_START "Start"
+#define kSTR_MANAGE "Manage"
+
+#define kSTR_SCORE_ON "SCORE ON"
+#define kSTR_SCORE_OFF "SCORE OFF"
+#define kSTR_COIN_ON "COIN ON"
+#define kSTR_COIN_OFF "COIN OFF"
+#define kSTR_EXP_ON "EXP ON"
+#define kSTR_EXP_OFF "EXP OFF"
+#define kSTR_TIME_ON "TIME ON"
+#define kSTR_TIME_OFF "TIME OFF"
+#define kSTR_BOMB_ON "BOMB ON"
+#define kSTR_BOMB_OFF "BOMB OFF"
+#define kSTR_TYPE_ON "TYPE ON"
+#define kSTR_TYPE_OFF "TYPE OFF"
+
+
 Scene* GameReadyMenuScene::createScene()
 {
     
@@ -18,12 +37,12 @@ Scene* GameReadyMenuScene::createScene()
     
     // 'layer' is an autorelease object
     auto layer = GameReadyMenuScene::create();
-
+    
     // add layer as a child to scene
     
     
     scene->addChild(layer);
-
+    
     // return the scene
     return scene;
 }
@@ -68,16 +87,16 @@ bool GameReadyMenuScene::init()
     this->pLabelExp->setDimensions(210, 30);
     this->pLabelExp->setPosition(170, visibleSize.height - 50);
     this->addChild(this->pLabelExp, 1);
-
+    
     // 戻るボタン (今は意味がない)
-    label = Label::createWithTTF("Modoru", kFONT_NORMAL, 30);
+    label = Label::createWithTTF(kSTR_MODORU, kFONT_NORMAL, 30);
     auto itemLabel0 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::movePrevScene, this));
     itemLabel0->setPositionX(-200.0f);
     // スタートボタン
-    label = Label::createWithTTF("Start", kFONT_NORMAL, 30);
+    label = Label::createWithTTF(KSTR_START, kFONT_NORMAL, 30);
     auto itemLabel1 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::moveNextScene, this));
     // ツム管理画面へ移動するボタン (今は意味がない)
-    label = Label::createWithTTF("Manage", kFONT_NORMAL, 30);
+    label = Label::createWithTTF(kSTR_MANAGE, kFONT_NORMAL, 30);
     auto itemLabel2 = MenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::moveManageScene, this));
     itemLabel2->setPositionX(200.0f);
     //メニューの作成　pMenuの中にpBtnItemを入れる
@@ -88,20 +107,40 @@ bool GameReadyMenuScene::init()
     this->addChild(pMenu);
     
     
+    
+    
     // スコア＋＋切り替えボタン
-    auto labelOn = Label::createWithTTF("SCORE ON", kFONT_NORMAL, 30);
-    auto labelOff = Label::createWithTTF("SCORE OFF", kFONT_NORMAL, 30);
-    auto btnSwith01 = ControlSwitch::create(NULL, NULL, NULL, NULL, labelOn, labelOff);
-    this->addChild(btnSwith01);
+    //    auto labelOn = Label::createWithTTF("SCORE ON", kFONT_NORMAL, 30);
+    //    auto labelOff = Label::createWithTTF("SCORE OFF", kFONT_NORMAL, 30);
+    label = Label::createWithTTF(kSTR_SCORE_ON, kFONT_NORMAL, 30);
+    
+    pMILUseScore = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Score);
+    pMILUseScore->setPosition(-200.0f, -100.0f);
+    //    itemLabel0->setPositionX(-200.0f);
     // コイン＋＋切り替えボタン
-    
+    label = Label::createWithTTF(kSTR_COIN_ON, kFONT_NORMAL, 30);
+    pMILUseCoin = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Coin);
+    pMILUseCoin->setPosition(0.0f, -100.0f);
     // 経験値＋＋切り替えボタン
-    
+    label = Label::createWithTTF(kSTR_EXP_ON, kFONT_NORMAL, 30);
+    pMILUseExp = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Exp);
+    pMILUseExp->setPosition(200.0f, -100.0f);
     // 時間＋＋切り替えボタン
-    
+    label = Label::createWithTTF(kSTR_TIME_ON, kFONT_NORMAL, 30);
+    pMILUseTime = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Time);
+    pMILUseTime->setPosition(-200.0f, 100.0f);
     // 爆弾＋＋切り替えボタン
-    
+    label = Label::createWithTTF(kSTR_BOMB_ON, kFONT_NORMAL, 30);
+    pMILUseBomb = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Bomb);
+    pMILUseBomb->setPosition(0.0f, 100.0f);
     // 種類＋＋切り替えボタン
+    label = Label::createWithTTF(kSTR_TYPE_ON, kFONT_NORMAL, 30);
+    pMILUseType = GameReadyMenu::UseMenuItemLabel::create(label, CC_CALLBACK_1(GameReadyMenuScene::flipUseItem, this), GameInfo::Type);
+    pMILUseType->setPosition(200.0f, 100.0f);
+    //メニューの作成　pMenuの中にpBtnItemを入れる
+    Menu* pUseMenu = Menu::create(pMILUseScore, pMILUseCoin, pMILUseExp, pMILUseTime, pMILUseBomb, pMILUseType, NULL);
+    pUseMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f));
+    this->addChild(pUseMenu);
     
     
     return true;
@@ -122,4 +161,33 @@ void GameReadyMenuScene::moveManageScene (Ref* pSender)
 {
     
 }
+
+void GameReadyMenuScene::flipUseItem (Ref* pSender)
+{
+    GameReadyMenu::UseMenuItemLabel* lab = (GameReadyMenu::UseMenuItemLabel*)pSender;
+    switch (lab->getFlag ()) {
+        case GameInfo::Score:
+            CCLOG ("%s", "SCORE");
+            break;
+        case GameInfo::Coin:
+            break;
+        case GameInfo::Exp:
+            break;
+        case GameInfo::Time:
+            break;
+        case GameInfo::Bomb:
+            CCLOG ("%s", "BOMB");
+            break;
+        case GameInfo::Type:
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+
+
+
 
