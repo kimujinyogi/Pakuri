@@ -48,6 +48,6 @@ namespace GameInfo {
     
     GameItemStatus* GameInfo::getItemStatus ()
     {
-        
+        return m_pItemStatus;
     }
 }

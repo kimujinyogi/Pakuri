@@ -3,9 +3,6 @@
 
 #include "cocos2d.h"
 
-namespace GameReadyMenu {
-    class UseMenuItemLabel;
-}
 class GameReadyMenuScene : public cocos2d::Layer
 {
 public:
@@ -19,15 +16,8 @@ public:
     CREATE_FUNC(GameReadyMenuScene);
 private:
     // レベルと経験値
-    cocos2d::Label* pLabelLevel;
-    cocos2d::Label* pLabelExp;
-    // アイテムメニュー
-    GameReadyMenu::UseMenuItemLabel* pMILUseScore;
-    GameReadyMenu::UseMenuItemLabel* pMILUseCoin;
-    GameReadyMenu::UseMenuItemLabel* pMILUseExp;
-    GameReadyMenu::UseMenuItemLabel* pMILUseTime;
-    GameReadyMenu::UseMenuItemLabel* pMILUseBomb;
-    GameReadyMenu::UseMenuItemLabel* pMILUseType;
+    cocos2d::Label* m_pLabelLevel;
+    cocos2d::Label* m_pLabelExp;
     
     void moveNextScene (Ref* pSender);
     void movePrevScene (Ref* pSender);
