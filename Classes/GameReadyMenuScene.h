@@ -16,12 +16,14 @@ public:
     CREATE_FUNC(GameReadyMenuScene);
 private:
     // レベルと経験値
-    cocos2d::Label* pLabelLevel;
-    cocos2d::Label* pLabelExp;
+    cocos2d::Label* m_pLabelLevel;
+    cocos2d::Label* m_pLabelExp;
     
     void moveNextScene (Ref* pSender);
     void movePrevScene (Ref* pSender);
     void moveManageScene (Ref* pSender);
+    
+    void flipUseItem (Ref* pSender);
 };
 
 #endif // __GAMEREADYMENU_SCENE_H__

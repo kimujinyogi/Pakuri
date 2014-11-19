@@ -152,6 +152,7 @@ public:
     static void printLeaks();
 #endif
 };
+typedef void (Ref::*SEL_MenuHandler)(Ref*);
 
 class Node;
 
@@ -159,7 +160,6 @@ typedef void (Ref::*SEL_CallFunc)();
 typedef void (Ref::*SEL_CallFuncN)(Node*);
 typedef void (Ref::*SEL_CallFuncND)(Node*, void*);
 typedef void (Ref::*SEL_CallFuncO)(Ref*);
-typedef void (Ref::*SEL_MenuHandler)(Ref*);
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
 #define callfunc_selector(_SELECTOR) static_cast<cocos2d::SEL_CallFunc>(&_SELECTOR)
