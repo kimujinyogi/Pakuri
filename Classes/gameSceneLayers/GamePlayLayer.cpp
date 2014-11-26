@@ -1,45 +1,34 @@
 //
-//  GameScene.cpp
-//  Puzzle2
+//  GamePlayLayer.cpp
+//  TestProject
 //
-//  Created by otmb on 2014/09/05.
+//  Created by KimJinHyuck on 2014/11/26.
 //
 //
 
-#include "GameScene.h"
+#include "GamePlayLayer.h"
+
+#include "defines.h"
+
 #include "Bullet.h"
 #include "UIDialog.h"
 #include "DrawLine.h"
+
 
 USING_NS_CC;
 
 #define MAX_BULLET 45
 
-Scene* GameScene::createScene()
+GamePlayLayer* GamePlayLayer::createLayer()
 {
+    auto layer = GamePlayLayer::create();
     
-    //物理演算を使う為にcreateWithPhysicsを使用
-    auto scene = Scene::createWithPhysics();
-
-    //Worldに対して重力をセット
-    //Vect gravity;
-    //gravity.setPoint(0, -50);
-    scene->getPhysicsWorld()->setGravity(Vec2(0, -98.0));
-    scene->getPhysicsWorld()->setSpeed(4.0f);
-    
-    //物理オブジェクトにを可視的にしてくれるデバックモード
-//    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-    
-    auto layer = GameScene::create();
-    
-    scene->addChild(layer);
-    
-    return scene;
+    return layer;
 }
 #include <functional>
 
 // on "init" you need to initialize your instance
-bool GameScene::init()
+bool GamePlayLayer::init()
 {
     if (!Layer::init())
         return false;
@@ -68,7 +57,7 @@ bool GameScene::init()
     
     Button* button = Button::create("ball.png");
     button->setPosition(Vec2(winSize.width,winSize.height - 50));
-    button->addTouchEventListener(CC_CALLBACK_2(GameScene::touchEvent, this));
+    button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
     addChild(button);
     
     _bulletVicts = new std::vector<Vec2*>();
@@ -80,16 +69,21 @@ bool GameScene::init()
     return true;
 }
 
-void GameScene::touchEvent(Ref *pSender, Widget::TouchEventType type)
+void GamePlayLayer::actionResume (Ref* pSender)
 {
-    //std::function<void(Ref*,Widget::TouchEventType)> callback = CC_CALLBACK_0(GameScene::dialogClose,this);
-    Widget::ccWidgetTouchCallback callback = CC_CALLBACK_0(GameScene::dialogClose,this);
+    
+}
+
+void GamePlayLayer::touchEvent(Ref *pSender, Widget::TouchEventType type)
+{
+    //std::function<void(Ref*,Widget::TouchEventType)> callback = CC_CALLBACK_0(GamePlayLayer::dialogClose,this);
+    Widget::ccWidgetTouchCallback callback = CC_CALLBACK_0(GamePlayLayer::dialogClose,this);
     _dialog = UIDialog::create(callback);
     addChild(_dialog,Z_Dialog,T_Dialog);
 }
 
-//void GameScene::dialogClose(Ref *pSender, Widget::TouchEventType type)
-void GameScene::dialogClose()
+//void GamePlayLayer::dialogClose(Ref *pSender, Widget::TouchEventType type)
+void GamePlayLayer::dialogClose()
 {
     auto nodes = getChildren();
     
@@ -105,7 +99,7 @@ void GameScene::dialogClose()
     }
 }
 
-void GameScene::update(float dt)
+void GamePlayLayer::update(float dt)
 {
     _time += dt;
     
@@ -127,7 +121,7 @@ void GameScene::update(float dt)
     _bulletVicts->clear();
 }
 
-void GameScene::showBullet(){
+void GamePlayLayer::showBullet(){
     
     //auto* sp = Sprite::createWithTexture(_spriteNode->getTexture());
     //addChild(sp,Z_Bullet);
@@ -147,19 +141,19 @@ void GameScene::showBullet(){
     _bullet++;
 }
 
-void GameScene::initTouchEvent()
+void GamePlayLayer::initTouchEvent()
 {
     auto touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
-    touchListener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
-    touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+    touchListener->onTouchBegan = CC_CALLBACK_2(GamePlayLayer::onTouchBegan, this);
+    touchListener->onTouchMoved = CC_CALLBACK_2(GamePlayLayer::onTouchMoved, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(GamePlayLayer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
     
 }
 
 #define mark - タップイベント
 
-bool GameScene::onTouchBegan(Touch* touch, Event* event)
+bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
 {
     auto location = touch->getLocation();
     auto arr = this->getScene()->getPhysicsWorld()->getShapes(location);
@@ -175,7 +169,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
     return true;
 }
 
-void GameScene::onTouchMoved(Touch* touch, Event* event)
+void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 {
     auto location = touch->getLocation();
     auto arr = this->getScene()->getPhysicsWorld()->getShapes(location);
@@ -222,13 +216,13 @@ void GameScene::onTouchMoved(Touch* touch, Event* event)
     //addChild(node);
 }
 
-void GameScene::onTouchEnded(Touch* touch, Event* event)
+void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
     // 2個以上で削除
     if (!_bullets.empty() && _bullets.size() > 2){
         for (auto* bullet : _bullets){
             if (bullet->getState() == Bullet::State::Moving){
-                 bullet->brokenBullet();
+                bullet->brokenBullet();
                 _bullet--;
             }
         }
@@ -237,7 +231,7 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
     //_bulletVicts->clear();
 }
 
-void GameScene::DrawLineRemove()
+void GamePlayLayer::DrawLineRemove()
 {
     auto nodes = getChildren();
     

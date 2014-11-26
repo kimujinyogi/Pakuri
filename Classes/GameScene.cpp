@@ -1,0 +1,88 @@
+//
+//  GameScene.cpp
+//  Puzzle2
+//
+//  Created by otmb on 2014/09/05.
+//
+//
+
+#include "GameScene.h"
+
+#include "defines.h"
+
+#include "GamePlayLayer.h"
+
+USING_NS_CC;
+
+
+GameScene* GameScene::createScene()
+{
+    GameScene *ret = new (std::nothrow) GameScene();
+    
+    //物理演算を使う為にcreateWithPhysicsを使用
+    if (ret && ret->initWithPhysics())
+    {
+        ret->autorelease();
+        return ret;
+    }
+    else
+    {
+        CC_SAFE_DELETE(ret);
+        return nullptr;
+    }
+}
+
+// on "init" you need to initialize your instance
+bool GameScene::initWithPhysics()
+{
+    if (!Scene::initWithPhysics())
+        return false;
+    
+    //Worldに対して重力をセット
+    //Vect gravity;
+    //gravity.setPoint(0, -50);
+    this->getPhysicsWorld()->setGravity(Vec2(0, -98.0));
+    this->getPhysicsWorld()->setSpeed(4.0f);
+    
+    //物理オブジェクトにを可視的にしてくれるデバックモード
+    //    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+    // レイヤーを設定する ...
+    this->initLayers ();
+    
+    return true;
+}
+
+void GameScene::initLayers ()
+{
+    // ゲームレイヤーを追加
+    m_layerGamePlay = GamePlayLayer::createLayer();
+    this->addChild(m_layerGamePlay);
+    
+    
+    // 一時停止のテスト機能
+    
+    // 1秒後にラムダ式を実行
+    this->runAction(Sequence::create(DelayTime::create(0.3),CallFunc::create([this](){
+        m_layerGamePlay->pause();
+    }), NULL));
+    
+    //    this->runAction(Sequence::create(DelayTime::create(1.3),CallFunc::create([this](){
+    //        //        this->getScene ()->getPhysicsWorld()->set
+    //        //        cocos2d::Director::getInstance()->pause();
+    //        this->getScene()->getPhysicsWorld()->setSpeed(4);
+    //    }), NULL));
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto label = Label::createWithTTF("SAIKAI!", kFONT_NORMAL, 30);
+    auto itemLabel0 = MenuItemLabel::create(label, CC_CALLBACK_1(GameScene::actionResume, this));
+    Menu* pMenu = Menu::create(itemLabel0, NULL);
+    pMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.1f));
+    this->addChild(pMenu, 100);
+}
+
+void GameScene::actionResume (Ref* pSender)
+{
+    m_layerGamePlay->resume();
+}
