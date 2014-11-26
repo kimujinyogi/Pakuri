@@ -1,13 +1,13 @@
 //
-//  GameScene.h
-//  Puzzle2
+//  GamePlayLayer.h
+//  TestProject
 //
-//  Created by otmb on 2014/09/05.
+//  Created by KimJinHyuck on 2014/11/26.
 //
 //
 
-#ifndef __Puzzle2__GameScene__
-#define __Puzzle2__GameScene__
+#ifndef __TestProject__GamePlayLayer__
+#define __TestProject__GamePlayLayer__
 
 #include "cocos2d.h"
 
@@ -22,7 +22,7 @@ USING_NS_CC_EXT;
 
 using namespace ui;
 
-class GameScene : public cocos2d::Layer
+class GamePlayLayer : public cocos2d::Layer
 {
 protected:
     enum ZOrder
@@ -57,7 +57,6 @@ protected:
     
     //cocos2d::Action* dialogClose();
     
-    
     cocos2d::Color3B _tagColor[5]{
         cocos2d::Color3B(0,255,255),
         cocos2d::Color3B(0,0,255),
@@ -74,9 +73,9 @@ protected:
     Vec2* _fingerPosition;
     
 public:
-    static cocos2d::Scene* createScene();
+    static GamePlayLayer* createLayer();
     virtual bool init();
-    CREATE_FUNC(GameScene);
+    CREATE_FUNC(GamePlayLayer);
     
     virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* evnet);
     virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* evnet);
@@ -85,9 +84,10 @@ public:
     void touchEvent(Ref *pSender, Widget::TouchEventType type);
     //void dialogClose(Ref *pSender, Widget::TouchEventType type);
     void dialogClose();
-    
+    void actionResume (Ref* pSender);
     
     //Vector<Vec2*> _bulletVicts; // これは出来ない
 };
 
-#endif /* defined(__Puzzle2__GameScene__) */
+
+#endif /* defined(__TestProject__GamePlayLayer__) */
