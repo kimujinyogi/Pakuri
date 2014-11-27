@@ -103,8 +103,6 @@
 		58AB99421A16154400C07532 /* GameItemStatus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB993F1A16154400C07532 /* GameItemStatus.cpp */; };
 		58AB99451A16155F00C07532 /* GameInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB99431A16155F00C07532 /* GameInfo.cpp */; };
 		58AB99461A16155F00C07532 /* GameInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB99431A16155F00C07532 /* GameInfo.cpp */; };
-		78BB63591A25DC7700D291D2 /* Test_GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BB63551A25DC7700D291D2 /* Test_GameScene.cpp */; };
-		78BB635A1A25DC7700D291D2 /* Test_GameStandByScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BB63571A25DC7700D291D2 /* Test_GameStandByScene.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -229,10 +227,6 @@
 		58AB99401A16154400C07532 /* GameItemStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameItemStatus.h; sourceTree = "<group>"; };
 		58AB99431A16155F00C07532 /* GameInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInfo.cpp; sourceTree = "<group>"; };
 		58AB99441A16155F00C07532 /* GameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInfo.h; sourceTree = "<group>"; };
-		78BB63551A25DC7700D291D2 /* Test_GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test_GameScene.cpp; sourceTree = "<group>"; };
-		78BB63561A25DC7700D291D2 /* Test_GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test_GameScene.h; sourceTree = "<group>"; };
-		78BB63571A25DC7700D291D2 /* Test_GameStandByScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test_GameStandByScene.cpp; sourceTree = "<group>"; };
-		78BB63581A25DC7700D291D2 /* Test_GameStandByScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test_GameStandByScene.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -404,10 +398,6 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				78BB63551A25DC7700D291D2 /* Test_GameScene.cpp */,
-				78BB63561A25DC7700D291D2 /* Test_GameScene.h */,
-				78BB63571A25DC7700D291D2 /* Test_GameStandByScene.cpp */,
-				78BB63581A25DC7700D291D2 /* Test_GameStandByScene.h */,
 				58A789C81A255E2500AC1826 /* GameScene.cpp */,
 				58A789C91A255E2500AC1826 /* GameScene.h */,
 				58A789AD1A255DC000AC1826 /* gameSceneLayers */,
@@ -709,7 +699,6 @@
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				58A789BE1A255E1B00AC1826 /* DrawLine.cpp in Sources */,
-				78BB63591A25DC7700D291D2 /* Test_GameScene.cpp in Sources */,
 				58A789CA1A255E2500AC1826 /* GameScene.cpp in Sources */,
 				58AB99451A16155F00C07532 /* GameInfo.cpp in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
@@ -720,7 +709,6 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				588122331A14358800B4F0DF /* IntroScene.cpp in Sources */,
 				58AB99411A16154400C07532 /* GameItemStatus.cpp in Sources */,
-				78BB635A1A25DC7700D291D2 /* Test_GameStandByScene.cpp in Sources */,
 				58A789C61A255E1B00AC1826 /* UIDialog.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				58A789C21A255E1B00AC1826 /* README.md in Sources */,
