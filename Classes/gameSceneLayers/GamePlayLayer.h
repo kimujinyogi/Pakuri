@@ -71,6 +71,8 @@ protected:
     Vector<Bullet*> _bullets;
     std::vector<Vec2*> * _bulletVicts;
     Vec2* _fingerPosition;
+    // 生成するポジションをずらす為のもの
+    float _createPosY;
     
 public:
     static GamePlayLayer* createLayer();

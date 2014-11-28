@@ -15,11 +15,19 @@ USING_NS_CC;
 
 using namespace ui;
 
-class GamePlayLayer;
+class GamePlayLayer; // ゲームプレイ画面を管理
+class GamePauseMenuLayer;   // ゲーム進行中の一時画面の管理
 class GameScene : public cocos2d::Scene
 {
+    enum LayerType {
+        Game = 0,
+        Timer,
+        Pause
+    };
+    
 private:
     GamePlayLayer* m_layerGamePlay;
+    GamePauseMenuLayer* m_layerPauseMenu;
 protected:
     
 public:
@@ -27,7 +35,9 @@ public:
     virtual bool initWithPhysics();
     void initLayers();
 //    CREATE_FUNC(GameScene);
-    void actionResume (Ref* pSender);
+//    void actionResume (Ref* pSender);
+    void evResume (Ref* pSender);
+    void evPause (Ref* pSender);
 };
 
 #endif /* defined(__Puzzle2__GameScene__) */
