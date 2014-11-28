@@ -8,7 +8,7 @@
 // I'm comming
 USING_NS_CC;
 
-#define kINTRO_COUNTTIME 5
+#define kINTRO_COUNTTIME 0
 
 Scene* IntroScene::createScene()
 {

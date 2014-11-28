@@ -11,6 +11,7 @@
 #include "defines.h"
 
 #include "GamePlayLayer.h"
+#include "GamePauseMenuLayer.h"
 
 USING_NS_CC;
 
@@ -57,15 +58,19 @@ void GameScene::initLayers ()
 {
     // ゲームレイヤーを追加
     m_layerGamePlay = GamePlayLayer::createLayer();
-    this->addChild(m_layerGamePlay);
+    this->addChild(m_layerGamePlay, LayerType::Game);
     
+    m_layerPauseMenu = GamePauseMenuLayer::createLayer();
+    this->addChild(m_layerPauseMenu, LayerType::Pause);
+
+    m_layerPauseMenu->setMenuEvent(CC_CALLBACK_1(GameScene::evResume, this), CC_CALLBACK_1(GameScene::evPause, this));
     
     // 一時停止のテスト機能
     
     // 1秒後にラムダ式を実行
-    this->runAction(Sequence::create(DelayTime::create(0.3),CallFunc::create([this](){
-        m_layerGamePlay->pause();
-    }), NULL));
+//    this->runAction(Sequence::create(DelayTime::create(0.3),CallFunc::create([this](){
+//        m_layerGamePlay->pause();
+//    }), NULL));
     
     //    this->runAction(Sequence::create(DelayTime::create(1.3),CallFunc::create([this](){
     //        //        this->getScene ()->getPhysicsWorld()->set
@@ -73,16 +78,28 @@ void GameScene::initLayers ()
     //        this->getScene()->getPhysicsWorld()->setSpeed(4);
     //    }), NULL));
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    auto label = Label::createWithTTF("SAIKAI!", kFONT_NORMAL, 30);
-    auto itemLabel0 = MenuItemLabel::create(label, CC_CALLBACK_1(GameScene::actionResume, this));
-    Menu* pMenu = Menu::create(itemLabel0, NULL);
-    pMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.1f));
-    this->addChild(pMenu, 100);
+//    Size visibleSize = Director::getInstance()->getVisibleSize();
+//    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+//    auto label = Label::createWithTTF("SAIKAI!", kFONT_NORMAL, 30);
+//    auto itemLabel0 = MenuItemLabel::create(label, CC_CALLBACK_1(GameScene::actionResume, this));
+//    Menu* pMenu = Menu::create(itemLabel0, NULL);
+//    pMenu->setPosition(Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.1f));
+//    this->addChild(pMenu, 100);
 }
 
-void GameScene::actionResume (Ref* pSender)
+//void GameScene::actionResume (Ref* pSender)
+//{
+//    m_layerGamePlay->resume();
+//}
+
+void GameScene::evResume (Ref* pSender)
 {
     m_layerGamePlay->resume();
+    this->getPhysicsWorld()->setSpeed(4.0f);
+}
+
+void GameScene::evPause (Ref* pSender)
+{
+    m_layerGamePlay->pause();
+    this->getPhysicsWorld()->setSpeed(0.0f);
 }

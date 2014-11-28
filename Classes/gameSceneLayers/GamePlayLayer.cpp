@@ -25,7 +25,6 @@ GamePlayLayer* GamePlayLayer::createLayer()
     
     return layer;
 }
-#include <functional>
 
 // on "init" you need to initialize your instance
 bool GamePlayLayer::init()
