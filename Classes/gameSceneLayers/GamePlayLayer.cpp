@@ -34,20 +34,24 @@ bool GamePlayLayer::init()
     
     auto winSize = Director::getInstance()->getWinSize();
     
-    Vec2 vec[6] =
+    _createPosY = winSize.height + 30;
+    
+    // これが、壁。
+    Vec2 vec[7] =
     {
-        Vec2(winSize.width-1, winSize.height -1),
-        Vec2(1, winSize.height -1),
-        Vec2(1, 100),
-        Vec2(winSize.width/2, 0),
-        Vec2(winSize.width-1,100),
-        Vec2(winSize.width-1,winSize.height -1),
+        Vec2(winSize.width - 30, winSize.height + 800),
+        Vec2(30, winSize.height + 800),
+        Vec2(30, 200),
+        Vec2(winSize.width * 0.33f, 100),
+        Vec2(winSize.width * 0.66f, 100),
+        Vec2(winSize.width - 30, 200),
+        Vec2(winSize.width - 30, winSize.height + 800),
     };
     
     auto wall = Node::create();
     //wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 5, PhysicsMaterial(0.1f, 1.0f, 0.0f)));
     // 密度、反発、摩擦
-    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 6, PhysicsMaterial(0.0f, 0.0f, 0.5f)));
+    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 7, PhysicsMaterial(0.0f, 0.0f, 0.5f)));
     wall->setPosition(0, 0);
     addChild(wall);
     
@@ -103,7 +107,14 @@ void GamePlayLayer::update(float dt)
     _time += dt;
     
     // 弾の発射判定
-    if (MAX_BULLET > _bullet) showBullet();
+    if (MAX_BULLET > _bullet) {
+        _createPosY += 15;
+         showBullet();
+    } else {
+        if ((Director::getInstance()->getWinSize().height + 40) < _createPosY) {
+            _createPosY -= 15;
+        }
+    }
     
     // 弾の座標が物理演算で変わるので対処
     //std::vector<Vec2*> * victs = new std::vector<Vec2*>();
@@ -131,8 +142,13 @@ void GamePlayLayer::showBullet(){
     bullet->setColor(_tagColor[tagNum]);
     
     auto winSize = Director::getInstance()->getWinSize();
-    bullet->setPosition(winSize.width/2, winSize.height - bullet->bulletSize);
     
+    // 生成される位置をランダムにしてみよう
+    // そして画面の外から
+    float randomX = arc4random() % ((int)(winSize.width - bullet->bulletSize * 2)) + bullet->bulletSize;
+    bullet->setPosition(randomX, _createPosY);
+//    bullet->setPosition(winSize.width/2, winSize.height - bullet->bulletSize);
+
     PhysicsBody* pBall = bullet->getPhysicsBody();
     pBall->setTag(T_Bullet);
     
