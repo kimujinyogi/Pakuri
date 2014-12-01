@@ -82,10 +82,13 @@ bool GamePauseMenuLayer::init()
     return true;
 }
 
-void GamePauseMenuLayer::setMenuEvent (const cbGameResume& callbackResume, const cbGamePause& callbackPause)
+void GamePauseMenuLayer::setMenuEvent (const callbackGamemenu& callbackResume,
+                                       const callbackGamemenu& callbackPause,
+                                       const callbackGamemenu& callbackRotate)
 {
     this->m_cbResume = callbackResume;
     this->m_cbPause = callbackPause;
+    this->m_cbRotate = callbackRotate;
 }
 
 void GamePauseMenuLayer::pauseGame ()
@@ -138,6 +141,8 @@ void GamePauseMenuLayer::doShake (Ref* pSender)
 {
     if (this->m_isPause)
         return;
+    if (this->m_cbRotate)
+        this->m_cbRotate (this);
 }
 
 

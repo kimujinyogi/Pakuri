@@ -63,7 +63,9 @@ void GameScene::initLayers ()
     m_layerPauseMenu = GamePauseMenuLayer::createLayer();
     this->addChild(m_layerPauseMenu, LayerType::Pause);
 
-    m_layerPauseMenu->setMenuEvent(CC_CALLBACK_1(GameScene::evResume, this), CC_CALLBACK_1(GameScene::evPause, this));
+    m_layerPauseMenu->setMenuEvent(CC_CALLBACK_1(GameScene::evResume, this),
+                                   CC_CALLBACK_1(GameScene::evPause, this),
+                                   CC_CALLBACK_1(GameScene::evRotate, this));
     
     // 一時停止のテスト機能
     
@@ -103,3 +105,16 @@ void GameScene::evPause (Ref* pSender)
     m_layerGamePlay->pause();
     this->getPhysicsWorld()->setSpeed(0.0f);
 }
+
+void GameScene::evRotate (Ref* pSender)
+{
+    m_layerGamePlay->actionRotate();
+}
+
+
+
+
+
+
+
+

@@ -69,12 +69,26 @@ bool GamePlayLayer::init()
     //_spriteNode = SpriteBatchNode::create("ball.png");
     //addChild(_spriteNode);
     
+    m_layerBullet = cocos2d::Layer::create();
+    addChild(m_layerBullet);
+    
     return true;
 }
 
-void GamePlayLayer::actionResume (Ref* pSender)
+void GamePlayLayer::actionRotate ()
 {
-    
+    Bullet* bullet;
+    auto enemies = m_layerBullet->getChildren();    // Vector
+//    CCLOG ("%s", "ACTION");
+    enemies.reverse();
+    for (auto target : enemies) {
+        bullet = (Bullet*)target;
+        PhysicsBody* pBall = bullet->getPhysicsBody();
+//        pBall->applyImpulse(Vect(0.0f, 10.0f), Point(100.0f, 0.0f));
+//        pBall->applyForce(Vect(0.0f, 10.0f));
+        pBall->applyForce(Vect(0.0f, 10.0f), Point(100.0f, 0.0f));
+        
+    }
 }
 
 void GamePlayLayer::touchEvent(Ref *pSender, Widget::TouchEventType type)
@@ -151,8 +165,8 @@ void GamePlayLayer::showBullet(){
 
     PhysicsBody* pBall = bullet->getPhysicsBody();
     pBall->setTag(T_Bullet);
-    
-    addChild(bullet,Z_Bullet,tagNum+2);
+    m_layerBullet->addChild(bullet,Z_Bullet,tagNum+2);
+//    addChild(bullet,Z_Bullet,tagNum+2);
     _bullet++;
 }
 
@@ -178,6 +192,7 @@ bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
         if ((obj->getBody()->getTag() & T_Bullet) != 0)
         {
             _tag = static_cast<Bullet*>(obj->getBody()->getNode())->getTag();
+            // ここでタッチしたものと繋げる事が出来る物を光らせる必要がある
             break;
         }
     }
@@ -217,8 +232,15 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
             if (distance < bullet->bulletSize * 3.0f){
                 _bullets.pushBack(bullet);
             }
-            //} else if (_bullets.back() == bullet) {
-            //    _bullets.erase(_bullets.find(bullet));
+        } else {
+            // 配列にすでに入っていた
+            // 最後の物のみキャンセル出来る
+            if (_bullets.size() > 1) {
+                Bullet* lastBullet = (_bullets.at(_bullets.size() - 2));
+                if (lastBullet == bullet) {
+                    _bullets.erase(_bullets.find(_bullets.back()));
+                }
+            }
         }
     }
     if (_bullets.size() < 2){
