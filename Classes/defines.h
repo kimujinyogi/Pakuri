@@ -30,6 +30,11 @@
 
 #define kFONT_NORMAL "Marker Felt.ttf"
 
+// Timer
+const float gameStandByTiem = 3.0f;
+const float gamePlayTimeCountUnit = 1.0f;
+const float gamePlayTime = 200.0f;
+
 #endif
 
 #include "NetManager.h"
