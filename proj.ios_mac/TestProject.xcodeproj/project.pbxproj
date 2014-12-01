@@ -103,7 +103,7 @@
 		58AB99421A16154400C07532 /* GameItemStatus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB993F1A16154400C07532 /* GameItemStatus.cpp */; };
 		58AB99451A16155F00C07532 /* GameInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB99431A16155F00C07532 /* GameInfo.cpp */; };
 		58AB99461A16155F00C07532 /* GameInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58AB99431A16155F00C07532 /* GameInfo.cpp */; };
-		7881A3301A2C3C920015F34B /* CountDownLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7881A32E1A2C3C920015F34B /* CountDownLayer.cpp */; };
+		7881A3371A2C3D500015F34B /* CountDownLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7881A3351A2C3D500015F34B /* CountDownLayer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -228,8 +228,8 @@
 		58AB99401A16154400C07532 /* GameItemStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameItemStatus.h; sourceTree = "<group>"; };
 		58AB99431A16155F00C07532 /* GameInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInfo.cpp; sourceTree = "<group>"; };
 		58AB99441A16155F00C07532 /* GameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInfo.h; sourceTree = "<group>"; };
-		7881A32E1A2C3C920015F34B /* CountDownLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CountDownLayer.cpp; path = ../CountDownLayer.cpp; sourceTree = "<group>"; };
-		7881A32F1A2C3C920015F34B /* CountDownLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownLayer.h; path = ../CountDownLayer.h; sourceTree = "<group>"; };
+		7881A3351A2C3D500015F34B /* CountDownLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CountDownLayer.cpp; sourceTree = "<group>"; };
+		7881A3361A2C3D500015F34B /* CountDownLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownLayer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -499,8 +499,8 @@
 		58A789AD1A255DC000AC1826 /* gameSceneLayers */ = {
 			isa = PBXGroup;
 			children = (
-				7881A32E1A2C3C920015F34B /* CountDownLayer.cpp */,
-				7881A32F1A2C3C920015F34B /* CountDownLayer.h */,
+				7881A3351A2C3D500015F34B /* CountDownLayer.cpp */,
+				7881A3361A2C3D500015F34B /* CountDownLayer.h */,
 				58A789B21A255E1B00AC1826 /* cocoPuzzle */,
 				58A789AE1A255DDB00AC1826 /* GamePlayLayer.cpp */,
 				58A789AF1A255DDB00AC1826 /* GamePlayLayer.h */,
@@ -709,7 +709,7 @@
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				1018195519E3D6B7006A88E3 /* NetManager.cpp in Sources */,
 				586F381B1A1B63D9001BCC02 /* UseMenuItemLabel.cpp in Sources */,
-				7881A3301A2C3C920015F34B /* CountDownLayer.cpp in Sources */,
+				7881A3371A2C3D500015F34B /* CountDownLayer.cpp in Sources */,
 				58A789B01A255DDB00AC1826 /* GamePlayLayer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
