@@ -15,6 +15,10 @@
 
 USING_NS_CC;
 
+#define kGAMESCENE_PHYSICS_GRAVITY 1594.0f
+#define kGAMESCENE_PHYSICS_SPEED 1.0f
+//#define kGAMESCENE_PHYSICS_GRAVITY 94.0f
+//#define kGAMESCENE_PHYSICS_SPEED 4.0f
 
 GameScene* GameScene::createScene()
 {
@@ -42,11 +46,13 @@ bool GameScene::initWithPhysics()
     //Worldに対して重力をセット
     //Vect gravity;
     //gravity.setPoint(0, -50);
-    this->getPhysicsWorld()->setGravity(Vec2(0, -98.0));
-    this->getPhysicsWorld()->setSpeed(4.0f);
+//    this->getPhysicsWorld()->setGravity(Vec2(0, -98.0));
+    this->getPhysicsWorld()->setGravity(Vec2(0, -kGAMESCENE_PHYSICS_GRAVITY));
+    this->getPhysicsWorld()->setSpeed(kGAMESCENE_PHYSICS_SPEED);
+//    this->getPhysicsWorld()->setcon
     
     //物理オブジェクトにを可視的にしてくれるデバックモード
-    //    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+//    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // レイヤーを設定する ...
     this->initLayers ();
@@ -97,7 +103,7 @@ void GameScene::initLayers ()
 void GameScene::evResume (Ref* pSender)
 {
     m_layerGamePlay->resume();
-    this->getPhysicsWorld()->setSpeed(4.0f);
+    this->getPhysicsWorld()->setSpeed(kGAMESCENE_PHYSICS_SPEED);
 }
 
 void GameScene::evPause (Ref* pSender)

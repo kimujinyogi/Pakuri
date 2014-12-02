@@ -34,18 +34,20 @@ bool GamePlayLayer::init()
     
     auto winSize = Director::getInstance()->getWinSize();
     
-    _createPosY = winSize.height + 30;
+    _createPosY = winSize.height - 50;
+    _mixForce = 150;
+    
     
     // これが、壁。
     Vec2 vec[7] =
     {
-        Vec2(winSize.width - 30, winSize.height + 800),
-        Vec2(30, winSize.height + 800),
+        Vec2(winSize.width - 30, winSize.height + 300),
+        Vec2(30, winSize.height + 300),
         Vec2(30, 200),
         Vec2(winSize.width * 0.33f, 100),
         Vec2(winSize.width * 0.66f, 100),
         Vec2(winSize.width - 30, 200),
-        Vec2(winSize.width - 30, winSize.height + 800),
+        Vec2(winSize.width - 30, winSize.height + 300),
     };
     
     auto wall = Node::create();
@@ -59,7 +61,7 @@ bool GamePlayLayer::init()
     scheduleUpdate();
     
     Button* button = Button::create("ball.png");
-    button->setPosition(Vec2(winSize.width,winSize.height - 50));
+    button->setPosition(Vec2(winSize.width, winSize.height - 50));
     button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
     addChild(button);
     
@@ -75,19 +77,21 @@ bool GamePlayLayer::init()
     return true;
 }
 
+// つむの位置を変更させる
 void GamePlayLayer::actionRotate ()
 {
     Bullet* bullet;
     auto enemies = m_layerBullet->getChildren();    // Vector
 //    CCLOG ("%s", "ACTION");
-    enemies.reverse();
+//    enemies.reverse();
     for (auto target : enemies) {
         bullet = (Bullet*)target;
         PhysicsBody* pBall = bullet->getPhysicsBody();
-//        pBall->applyImpulse(Vect(0.0f, 10.0f), Point(100.0f, 0.0f));
-//        pBall->applyForce(Vect(0.0f, 10.0f));
-        pBall->applyForce(Vect(0.0f, 10.0f), Point(100.0f, 0.0f));
-        
+        int x = arc4random() % 1000 - 500;
+        int y = arc4random() % 1500 - 300;
+        int side = (arc4random() % 2) == 0 ? bullet->bulletSize * 0.5f : bullet->bulletSize * -0.5f;
+        pBall->applyImpulse(Vect(x, y), Vect(side, 0));
+        pBall->applyTorque(1500);
     }
 }
 
@@ -116,21 +120,20 @@ void GamePlayLayer::dialogClose()
     }
 }
 
+// 更新処理
+// 一定のつむを生成し続ける
 void GamePlayLayer::update(float dt)
 {
     _time += dt;
     
     // 弾の発射判定
     if (MAX_BULLET > _bullet) {
-        _createPosY += 15;
          showBullet();
-    } else {
-        if ((Director::getInstance()->getWinSize().height + 40) < _createPosY) {
-            _createPosY -= 15;
-        }
     }
     
     // 弾の座標が物理演算で変わるので対処
+    // _bulletsに選択されたつむが入っているので、毎回位置を設定して線を描画
+    // さらに、指を動かしているのであれば、指の線の描画
     //std::vector<Vec2*> * victs = new std::vector<Vec2*>();
     for(auto* bullet : _bullets){
         _bulletVicts->push_back(new Vec2(bullet->getPosition()));
@@ -145,6 +148,8 @@ void GamePlayLayer::update(float dt)
     _bulletVicts->clear();
 }
 
+// つむを生成する処理
+// 画面の外にランダムで発生させる
 void GamePlayLayer::showBullet(){
     
     //auto* sp = Sprite::createWithTexture(_spriteNode->getTexture());

@@ -73,6 +73,8 @@ protected:
     Vec2* _fingerPosition;
     // 生成するポジションをずらす為のもの
     float _createPosY;
+    // 混ぜるときの強さ
+    float _mixForce;
     
     cocos2d::Layer* m_layerBullet;
     
