@@ -33,6 +33,7 @@
 #endif
 
 #include "NetManager.h"
+#include "VisibleRect.h"
 
 
 

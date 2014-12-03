@@ -49,6 +49,9 @@ bool GameScene::initWithPhysics()
 //    this->getPhysicsWorld()->setGravity(Vec2(0, -98.0));
     this->getPhysicsWorld()->setGravity(Vec2(0, -kGAMESCENE_PHYSICS_GRAVITY));
     this->getPhysicsWorld()->setSpeed(kGAMESCENE_PHYSICS_SPEED);
+
+//    CCLOG ("substep = %d",     this->getPhysicsWorld()->getSubsteps());
+//    CCLOG ("RATE = %d", this->getPhysicsWorld()->getUpdateRate());
 //    this->getPhysicsWorld()->setcon
     
     //物理オブジェクトにを可視的にしてくれるデバックモード

@@ -37,33 +37,95 @@ bool GamePlayLayer::init()
     _createPosY = winSize.height - 50;
     _mixForce = 150;
     
+    float thickWallSize = winSize.height * winSize.width;
+    float thickWallSizeHalf = thickWallSize * 0.5f;
+    float offsetSize = 50;
     
-    // これが、壁。
-    Vec2 vec[7] =
-    {
-        Vec2(winSize.width - 30, winSize.height + 300),
-        Vec2(30, winSize.height + 300),
-        Vec2(30, 200),
-        Vec2(winSize.width * 0.33f, 100),
-        Vec2(winSize.width * 0.66f, 100),
-        Vec2(winSize.width - 30, 200),
-        Vec2(winSize.width - 30, winSize.height + 300),
-    };
+    // 壁をポリゴンで作って、外に出ないようにする
+/*
+     [       1       ]
+     [ 2  ]       [ 4  ]
+     [  3     ][    5  ]
+        [   6   ]
+*/
+    PhysicsMaterial wallMat = PhysicsMaterial(1.0f, 0.0f, 1.0f);
+    cocos2d::Size wallSize = cocos2d::Size (thickWallSize, thickWallSize);
+//    auto pWall01 = PhysicsBody::createPolygon(spritePoints, 12, PhysicsMaterial(1.0f, 0.0f, 1.0f));
+    auto pWall01 = Node::create();
+    pWall01->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall01->getPhysicsBody()->setDynamic(false);
+    pWall01->getPhysicsBody()->setGravityEnable(false);
+    pWall01->setPosition(cocos2d::Vec2 (VisibleRect::center().x, VisibleRect::top().y + thickWallSizeHalf + 800));
     
-    auto wall = Node::create();
-    //wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 5, PhysicsMaterial(0.1f, 1.0f, 0.0f)));
-    // 密度、反発、摩擦
-    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 7, PhysicsMaterial(0.0f, 0.0f, 0.5f)));
-    wall->setPosition(0, 0);
-    addChild(wall);
+    auto pWall02 = Node::create();
+    pWall02->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall02->getPhysicsBody()->setDynamic(false);
+    pWall02->getPhysicsBody()->setGravityEnable(false);
+    pWall02->setPosition(cocos2d::Vec2 (VisibleRect::left().x - thickWallSizeHalf + offsetSize, VisibleRect::center().y));
+
+    auto pWall03 = Node::create();
+    pWall03->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall03->getPhysicsBody()->setDynamic(false);
+    pWall03->getPhysicsBody()->setGravityEnable(false);
+    pWall03->setPosition(cocos2d::Vec2 (VisibleRect::right().x + thickWallSizeHalf - offsetSize, VisibleRect::center().y));
+    
+    auto pWall04 = Node::create();
+    pWall04->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall04->getPhysicsBody()->setDynamic(false);
+    pWall04->getPhysicsBody()->setGravityEnable(false);
+    pWall04->getPhysicsBody()->setRotationEnable(true);
+    pWall04->getPhysicsBody()->setRotationOffset(30);
+    pWall04->setPosition(cocos2d::Vec2 (VisibleRect::center().x - thickWallSizeHalf * 0.7, VisibleRect::bottom().y - thickWallSizeHalf + thickWallSizeHalf * 0.2496));
+    
+    auto pWall05 = Node::create();
+    pWall05->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall05->getPhysicsBody()->setDynamic(false);
+    pWall05->getPhysicsBody()->setGravityEnable(false);
+    pWall05->getPhysicsBody()->setRotationEnable(true);
+    pWall05->getPhysicsBody()->setRotationOffset(-30);
+    pWall05->setPosition(cocos2d::Vec2 (VisibleRect::center().x + thickWallSizeHalf * 0.7, VisibleRect::bottom().y - thickWallSizeHalf + thickWallSizeHalf * 0.2496));
+    
+    auto pWall06 = Node::create();
+    pWall06->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall06->getPhysicsBody()->setDynamic(false);
+    pWall06->getPhysicsBody()->setGravityEnable(false);
+    pWall06->setPosition(cocos2d::Vec2 (VisibleRect::center().x, VisibleRect::bottom().y - thickWallSizeHalf + offsetSize * 2));
+    
+    addChild(pWall01);
+    addChild(pWall02);
+    addChild(pWall03);
+    addChild(pWall04);
+    addChild(pWall05);
+    addChild(pWall06);
+    
+//    this->setScale(0.01f);
+    
+//    // これが、壁。
+//    Vec2 vec[7] =
+//    {
+//        Vec2(winSize.width - 30, winSize.height + 300),
+//        Vec2(30, winSize.height + 300),
+//        Vec2(30, 200),
+//        Vec2(winSize.width * 0.33f, 100),
+//        Vec2(winSize.width * 0.66f, 100),
+//        Vec2(winSize.width - 30, 200),
+//        Vec2(winSize.width - 30, winSize.height + 300),
+//    };
+//    
+//    auto wall = Node::create();
+//    //wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 5, PhysicsMaterial(0.1f, 1.0f, 0.0f)));
+//    // 密度、反発、摩擦
+//    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 7, PhysicsMaterial(1.0f, 0.0f, 1.0f)));
+//    wall->setPosition(0, 0);
+//    addChild(wall);
     
     initTouchEvent();
     scheduleUpdate();
     
-    Button* button = Button::create("ball.png");
-    button->setPosition(Vec2(winSize.width, winSize.height - 50));
-    button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
-    addChild(button);
+//    Button* button = Button::create("ball.png");
+//    button->setPosition(Vec2(winSize.width, winSize.height - 50));
+//    button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
+//    addChild(button);
     
     _bulletVicts = new std::vector<Vec2*>();
     _fingerPosition = nullptr;
@@ -87,11 +149,12 @@ void GamePlayLayer::actionRotate ()
     for (auto target : enemies) {
         bullet = (Bullet*)target;
         PhysicsBody* pBall = bullet->getPhysicsBody();
-        int x = arc4random() % 1000 - 500;
-        int y = arc4random() % 1500 - 300;
+        int x = arc4random() % 10000000 - 5000000;
+        int y = arc4random() % 16000000 - 5000000;
         int side = (arc4random() % 2) == 0 ? bullet->bulletSize * 0.5f : bullet->bulletSize * -0.5f;
         pBall->applyImpulse(Vect(x, y), Vect(side, 0));
-        pBall->applyTorque(1500);
+//        pBall->applyImpulse(Vect(0, 99999999), Vect(side, 0));
+//        pBall->applyTorque(1500);
     }
 }
 
