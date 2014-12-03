@@ -14,16 +14,16 @@
 // ゲーム中にスキルを使用する為のボタンや、一時停止のボタンがある
 // 一時停止のメニューも管理する
 
-typedef std::function<void(cocos2d::Ref*)> cbGameResume;
-typedef std::function<void(cocos2d::Ref*)> cbGamePause;
+typedef std::function<void(cocos2d::Ref*)> callbackGamemenu;
 
 class GamePauseMenuLayer : public cocos2d::Layer
 {
 private:
     cocos2d::EventListenerTouchOneByOne* m_eventListener;
     cocos2d::Layer* m_layerMenu;
-    cbGameResume m_cbResume;
-    cbGamePause m_cbPause;
+    callbackGamemenu m_cbResume;
+    callbackGamemenu m_cbPause;
+    callbackGamemenu m_cbRotate;
     
     bool m_isPause;
 public:
@@ -32,7 +32,9 @@ public:
     CREATE_FUNC(GamePauseMenuLayer);
     
     // 再開、一時停止のイベントセット
-    void setMenuEvent (const cbGameResume& callbackResume, const cbGamePause& callbackPause);
+    void setMenuEvent (const callbackGamemenu& callbackResume,
+                       const callbackGamemenu& callbackPause,
+                       const callbackGamemenu& callbackRotate);
 
     // メニュー操作
     void pauseGame ();

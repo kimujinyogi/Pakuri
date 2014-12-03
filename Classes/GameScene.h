@@ -38,6 +38,7 @@ public:
 //    void actionResume (Ref* pSender);
     void evResume (Ref* pSender);
     void evPause (Ref* pSender);
+    void evRotate (Ref* pSender);
 };
 
 #endif /* defined(__Puzzle2__GameScene__) */

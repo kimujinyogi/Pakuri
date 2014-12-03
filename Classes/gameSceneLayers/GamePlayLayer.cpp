@@ -34,34 +34,98 @@ bool GamePlayLayer::init()
     
     auto winSize = Director::getInstance()->getWinSize();
     
-    _createPosY = winSize.height + 30;
+    _createPosY = winSize.height - 50;
+    _mixForce = 150;
     
-    // これが、壁。
-    Vec2 vec[7] =
-    {
-        Vec2(winSize.width - 30, winSize.height + 800),
-        Vec2(30, winSize.height + 800),
-        Vec2(30, 200),
-        Vec2(winSize.width * 0.33f, 100),
-        Vec2(winSize.width * 0.66f, 100),
-        Vec2(winSize.width - 30, 200),
-        Vec2(winSize.width - 30, winSize.height + 800),
-    };
+    float thickWallSize = winSize.height * winSize.width;
+    float thickWallSizeHalf = thickWallSize * 0.5f;
+    float offsetSize = 50;
     
-    auto wall = Node::create();
-    //wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 5, PhysicsMaterial(0.1f, 1.0f, 0.0f)));
-    // 密度、反発、摩擦
-    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 7, PhysicsMaterial(0.0f, 0.0f, 0.5f)));
-    wall->setPosition(0, 0);
-    addChild(wall);
+    // 壁をポリゴンで作って、外に出ないようにする
+/*
+     [       1       ]
+     [ 2  ]       [ 4  ]
+     [  3     ][    5  ]
+        [   6   ]
+*/
+    PhysicsMaterial wallMat = PhysicsMaterial(1.0f, 0.0f, 1.0f);
+    cocos2d::Size wallSize = cocos2d::Size (thickWallSize, thickWallSize);
+//    auto pWall01 = PhysicsBody::createPolygon(spritePoints, 12, PhysicsMaterial(1.0f, 0.0f, 1.0f));
+    auto pWall01 = Node::create();
+    pWall01->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall01->getPhysicsBody()->setDynamic(false);
+    pWall01->getPhysicsBody()->setGravityEnable(false);
+    pWall01->setPosition(cocos2d::Vec2 (VisibleRect::center().x, VisibleRect::top().y + thickWallSizeHalf + 800));
+    
+    auto pWall02 = Node::create();
+    pWall02->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall02->getPhysicsBody()->setDynamic(false);
+    pWall02->getPhysicsBody()->setGravityEnable(false);
+    pWall02->setPosition(cocos2d::Vec2 (VisibleRect::left().x - thickWallSizeHalf + offsetSize, VisibleRect::center().y));
+
+    auto pWall03 = Node::create();
+    pWall03->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall03->getPhysicsBody()->setDynamic(false);
+    pWall03->getPhysicsBody()->setGravityEnable(false);
+    pWall03->setPosition(cocos2d::Vec2 (VisibleRect::right().x + thickWallSizeHalf - offsetSize, VisibleRect::center().y));
+    
+    auto pWall04 = Node::create();
+    pWall04->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall04->getPhysicsBody()->setDynamic(false);
+    pWall04->getPhysicsBody()->setGravityEnable(false);
+    pWall04->getPhysicsBody()->setRotationEnable(true);
+    pWall04->getPhysicsBody()->setRotationOffset(30);
+    pWall04->setPosition(cocos2d::Vec2 (VisibleRect::center().x - thickWallSizeHalf * 0.7, VisibleRect::bottom().y - thickWallSizeHalf + thickWallSizeHalf * 0.2496));
+    
+    auto pWall05 = Node::create();
+    pWall05->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall05->getPhysicsBody()->setDynamic(false);
+    pWall05->getPhysicsBody()->setGravityEnable(false);
+    pWall05->getPhysicsBody()->setRotationEnable(true);
+    pWall05->getPhysicsBody()->setRotationOffset(-30);
+    pWall05->setPosition(cocos2d::Vec2 (VisibleRect::center().x + thickWallSizeHalf * 0.7, VisibleRect::bottom().y - thickWallSizeHalf + thickWallSizeHalf * 0.2496));
+    
+    auto pWall06 = Node::create();
+    pWall06->setPhysicsBody(PhysicsBody::createBox(wallSize, wallMat));
+    pWall06->getPhysicsBody()->setDynamic(false);
+    pWall06->getPhysicsBody()->setGravityEnable(false);
+    pWall06->setPosition(cocos2d::Vec2 (VisibleRect::center().x, VisibleRect::bottom().y - thickWallSizeHalf + offsetSize * 2));
+    
+    addChild(pWall01);
+    addChild(pWall02);
+    addChild(pWall03);
+    addChild(pWall04);
+    addChild(pWall05);
+    addChild(pWall06);
+    
+//    this->setScale(0.01f);
+    
+//    // これが、壁。
+//    Vec2 vec[7] =
+//    {
+//        Vec2(winSize.width - 30, winSize.height + 300),
+//        Vec2(30, winSize.height + 300),
+//        Vec2(30, 200),
+//        Vec2(winSize.width * 0.33f, 100),
+//        Vec2(winSize.width * 0.66f, 100),
+//        Vec2(winSize.width - 30, 200),
+//        Vec2(winSize.width - 30, winSize.height + 300),
+//    };
+//    
+//    auto wall = Node::create();
+//    //wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 5, PhysicsMaterial(0.1f, 1.0f, 0.0f)));
+//    // 密度、反発、摩擦
+//    wall->setPhysicsBody(PhysicsBody::createEdgeChain(vec, 7, PhysicsMaterial(1.0f, 0.0f, 1.0f)));
+//    wall->setPosition(0, 0);
+//    addChild(wall);
     
     initTouchEvent();
     scheduleUpdate();
     
-    Button* button = Button::create("ball.png");
-    button->setPosition(Vec2(winSize.width,winSize.height - 50));
-    button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
-    addChild(button);
+//    Button* button = Button::create("ball.png");
+//    button->setPosition(Vec2(winSize.width, winSize.height - 50));
+//    button->addTouchEventListener(CC_CALLBACK_2(GamePlayLayer::touchEvent, this));
+//    addChild(button);
     
     _bulletVicts = new std::vector<Vec2*>();
     _fingerPosition = nullptr;
@@ -69,12 +133,29 @@ bool GamePlayLayer::init()
     //_spriteNode = SpriteBatchNode::create("ball.png");
     //addChild(_spriteNode);
     
+    m_layerBullet = cocos2d::Layer::create();
+    addChild(m_layerBullet);
+    
     return true;
 }
 
-void GamePlayLayer::actionResume (Ref* pSender)
+// つむの位置を変更させる
+void GamePlayLayer::actionRotate ()
 {
-    
+    Bullet* bullet;
+    auto enemies = m_layerBullet->getChildren();    // Vector
+//    CCLOG ("%s", "ACTION");
+//    enemies.reverse();
+    for (auto target : enemies) {
+        bullet = (Bullet*)target;
+        PhysicsBody* pBall = bullet->getPhysicsBody();
+        int x = arc4random() % 10000000 - 5000000;
+        int y = arc4random() % 16000000 - 5000000;
+        int side = (arc4random() % 2) == 0 ? bullet->bulletSize * 0.5f : bullet->bulletSize * -0.5f;
+        pBall->applyImpulse(Vect(x, y), Vect(side, 0));
+//        pBall->applyImpulse(Vect(0, 99999999), Vect(side, 0));
+//        pBall->applyTorque(1500);
+    }
 }
 
 void GamePlayLayer::touchEvent(Ref *pSender, Widget::TouchEventType type)
@@ -102,21 +183,20 @@ void GamePlayLayer::dialogClose()
     }
 }
 
+// 更新処理
+// 一定のつむを生成し続ける
 void GamePlayLayer::update(float dt)
 {
     _time += dt;
     
     // 弾の発射判定
     if (MAX_BULLET > _bullet) {
-        _createPosY += 15;
          showBullet();
-    } else {
-        if ((Director::getInstance()->getWinSize().height + 40) < _createPosY) {
-            _createPosY -= 15;
-        }
     }
     
     // 弾の座標が物理演算で変わるので対処
+    // _bulletsに選択されたつむが入っているので、毎回位置を設定して線を描画
+    // さらに、指を動かしているのであれば、指の線の描画
     //std::vector<Vec2*> * victs = new std::vector<Vec2*>();
     for(auto* bullet : _bullets){
         _bulletVicts->push_back(new Vec2(bullet->getPosition()));
@@ -131,6 +211,8 @@ void GamePlayLayer::update(float dt)
     _bulletVicts->clear();
 }
 
+// つむを生成する処理
+// 画面の外にランダムで発生させる
 void GamePlayLayer::showBullet(){
     
     //auto* sp = Sprite::createWithTexture(_spriteNode->getTexture());
@@ -151,8 +233,8 @@ void GamePlayLayer::showBullet(){
 
     PhysicsBody* pBall = bullet->getPhysicsBody();
     pBall->setTag(T_Bullet);
-    
-    addChild(bullet,Z_Bullet,tagNum+2);
+    m_layerBullet->addChild(bullet,Z_Bullet,tagNum+2);
+//    addChild(bullet,Z_Bullet,tagNum+2);
     _bullet++;
 }
 
@@ -178,6 +260,7 @@ bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
         if ((obj->getBody()->getTag() & T_Bullet) != 0)
         {
             _tag = static_cast<Bullet*>(obj->getBody()->getNode())->getTag();
+            // ここでタッチしたものと繋げる事が出来る物を光らせる必要がある
             break;
         }
     }
@@ -217,8 +300,15 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
             if (distance < bullet->bulletSize * 3.0f){
                 _bullets.pushBack(bullet);
             }
-            //} else if (_bullets.back() == bullet) {
-            //    _bullets.erase(_bullets.find(bullet));
+        } else {
+            // 配列にすでに入っていた
+            // 最後の物のみキャンセル出来る
+            if (_bullets.size() > 1) {
+                Bullet* lastBullet = (_bullets.at(_bullets.size() - 2));
+                if (lastBullet == bullet) {
+                    _bullets.erase(_bullets.find(_bullets.back()));
+                }
+            }
         }
     }
     if (_bullets.size() < 2){

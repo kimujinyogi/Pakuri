@@ -73,6 +73,10 @@ protected:
     Vec2* _fingerPosition;
     // 生成するポジションをずらす為のもの
     float _createPosY;
+    // 混ぜるときの強さ
+    float _mixForce;
+    
+    cocos2d::Layer* m_layerBullet;
     
 public:
     static GamePlayLayer* createLayer();
@@ -86,7 +90,8 @@ public:
     void touchEvent(Ref *pSender, Widget::TouchEventType type);
     //void dialogClose(Ref *pSender, Widget::TouchEventType type);
     void dialogClose();
-    void actionResume (Ref* pSender);
+    
+    void actionRotate ();
     
     //Vector<Vec2*> _bulletVicts; // これは出来ない
 };
