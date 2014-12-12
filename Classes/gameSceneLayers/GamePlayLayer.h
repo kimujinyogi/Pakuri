@@ -51,24 +51,21 @@ protected:
     UIDialog* _dialog;
     
     void initTouchEvent();
+    bool checkSelectableBullets (Bullet* target);
     void showBullet();
     
     //void addLayer();
     
     //cocos2d::Action* dialogClose();
     
-    cocos2d::Color3B _tagColor[5]{
-        cocos2d::Color3B(0,255,255),
-        cocos2d::Color3B(0,0,255),
-        cocos2d::Color3B(128,128,128),
-        cocos2d::Color3B(255,0,0),
-        cocos2d::Color3B(255,255,255)
-    };
+
     //void dialogClose();
     void DrawLineRemove();
     
     //SpriteBatchNode* _spriteNode;
     Vector<Bullet*> _bullets;
+    // タッチした瞬間光らせるものたち
+    Vector<Bullet*> _selectableBullets;
     std::vector<Vec2*> * _bulletVicts;
     Vec2* _fingerPosition;
     // 生成するポジションをずらす為のもの

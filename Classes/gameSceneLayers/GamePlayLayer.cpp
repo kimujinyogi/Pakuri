@@ -217,11 +217,11 @@ void GamePlayLayer::showBullet(){
     
     //auto* sp = Sprite::createWithTexture(_spriteNode->getTexture());
     //addChild(sp,Z_Bullet);
-    auto bullet = Bullet::create();
     //srand((unsigned int)time(NULL));
     int tagNum = arc4random()%5;
-    
-    bullet->setColor(_tagColor[tagNum]);
+    auto bullet = Bullet::create(tagNum);
+    // bulletの中でやるように修正
+//    bullet->setColor(_tagColor[tagNum]);
     
     auto winSize = Director::getInstance()->getWinSize();
     
@@ -248,7 +248,45 @@ void GamePlayLayer::initTouchEvent()
     
 }
 
+// タッチしたら、繋げることができるものを感知する
+// 0. 全ての物をまず光を消す
+// 1. タッチしたもののtagと同じものを探す
+// 2. 距離が近いものを探す
+// 3. 距離が近いものそれぞれが、また２を行う。その時、すでにチェックしたやつは除外しないと無限ループ
+// 4. 全て確認が終わったら、その子達を光らせる
+
+bool GamePlayLayer::checkSelectableBullets (Bullet* target)
+{
+    if (target == nullptr) {
+        auto enemies = m_layerBullet->getChildren();
+        for (auto objs : enemies) {
+            Bullet* bullet = (Bullet*)objs;
+            bullet->setSelectableColor (false);
+        }
+        _selectableBullets.clear();
+        return false;
+    } else {
+        auto enemies = m_layerBullet->getChildren();
+        // 次のターゲット
+            // Vector
+        // bulletsにタグと色を設定して、自分に覚えさせる必要がある
+        // bulletsをgetChildrenするとき
+//        m_layerBullet->addChild(bullet,Z_Bullet,tagNum+2);
+        for (auto objs : enemies) {
+            Bullet* bullet = (Bullet*)objs;
+            CCLOG ("%d == %d", bullet->getTag(), target->getTag());
+            bullet->setSelectableColor ((bullet->getTag() == target->getTag()));
+//            PhysicsBody* pBall = bullet->getPhysicsBody();
+        }
+//        bullet->setColor(_tagColor[tagNum]);
+        
+        return true;
+    }
+}
+
 #define mark - タップイベント
+
+
 
 bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
 {
@@ -259,8 +297,21 @@ bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
     {
         if ((obj->getBody()->getTag() & T_Bullet) != 0)
         {
-            _tag = static_cast<Bullet*>(obj->getBody()->getNode())->getTag();
+            Bullet* bullet = static_cast<Bullet*>(obj->getBody()->getNode());
+            _tag = bullet->getTag();
+            this->checkSelectableBullets(bullet);
             // ここでタッチしたものと繋げる事が出来る物を光らせる必要がある
+            //
+            
+//            auto others = m_layerBullet->getChildren();    // Vector
+//            //    CCLOG ("%s", "ACTION");
+//            //    enemies.reverse();
+//            for (auto target : others) {
+//                if (obj)
+////                bullet = (Bullet*)target;
+//            }
+
+            
             break;
         }
     }
@@ -293,12 +344,14 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
         
         if (_bullets.empty()){ // 空
             _bullets.pushBack(bullet);
+            this->checkSelectableBullets(bullet);
         } else if (!_bullets.contains(bullet)){ // 配列に入っていない
             // 距離の比較
             float distance = _bullets.back()->getPosition().distance(bullet->getPosition());
             //log("%f",distance);
             if (distance < bullet->bulletSize * 3.0f){
                 _bullets.pushBack(bullet);
+                this->checkSelectableBullets(bullet);
             }
         } else {
             // 配列にすでに入っていた
@@ -323,6 +376,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
+    this->checkSelectableBullets (nullptr);
     // 2個以上で削除
     if (!_bullets.empty() && _bullets.size() > 2){
         for (auto* bullet : _bullets){
