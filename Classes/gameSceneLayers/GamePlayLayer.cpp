@@ -18,6 +18,7 @@
 USING_NS_CC;
 
 #define MAX_BULLET 45
+#define DISTANCE_SELECTABLE_SCALE 3.0f
 
 GamePlayLayer* GamePlayLayer::createLayer()
 {
@@ -274,8 +275,33 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target)
 //        m_layerBullet->addChild(bullet,Z_Bullet,tagNum+2);
         for (auto objs : enemies) {
             Bullet* bullet = (Bullet*)objs;
-            CCLOG ("%d == %d", bullet->getTag(), target->getTag());
-            bullet->setSelectableColor ((bullet->getTag() == target->getTag()));
+            // _bullets すでに選択したものなのか見る
+            // すでに選択可能としたものなのか？
+            if (_selectableBullets.contains(bullet)) {
+                // 色変えなくていいはず
+                
+            } else if (!_bullets.contains(bullet)) {
+                // 選択してない
+                //  選択可能なもので、可能な距離なのか？
+                if (bullet->getTag() == target->getTag()) {
+                    float distance = bullet->getPosition().distance(target->getPosition());
+                    if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
+                        _selectableBullets.pushBack(bullet);
+                        bullet->setSelectableColor(true);
+                        // 選択可能なのもなので、そいつからまた選択可能なものがあるか確認する
+                        this->checkSelectableBullets(bullet);
+                    } else {
+                        bullet->setSelectableColor(false);
+                    }
+                } else {
+                    bullet->setSelectableColor(false);
+                }
+            } else {
+                _selectableBullets.pushBack(bullet);
+                // 選択してる, 今はとりあえず、ここで色を変える
+                bullet->setSelectableColor(true);
+            }
+//            bullet->setSelectableColor ((bullet->getTag() == target->getTag()));
 //            PhysicsBody* pBall = bullet->getPhysicsBody();
         }
 //        bullet->setColor(_tagColor[tagNum]);
@@ -300,6 +326,7 @@ bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
             Bullet* bullet = static_cast<Bullet*>(obj->getBody()->getNode());
             _tag = bullet->getTag();
             this->checkSelectableBullets(bullet);
+            
             // ここでタッチしたものと繋げる事が出来る物を光らせる必要がある
             //
             
@@ -340,7 +367,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
         }
     }
     if (bullet != nullptr
-        && bullet->getState() == Bullet::State::Moving){
+        && bullet->getState() == Bullet::State::Moving) {
         
         if (_bullets.empty()){ // 空
             _bullets.pushBack(bullet);
@@ -349,7 +376,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
             // 距離の比較
             float distance = _bullets.back()->getPosition().distance(bullet->getPosition());
             //log("%f",distance);
-            if (distance < bullet->bulletSize * 3.0f){
+            if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
                 _bullets.pushBack(bullet);
                 this->checkSelectableBullets(bullet);
             }

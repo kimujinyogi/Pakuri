@@ -19,6 +19,7 @@ public:
     enum class State
     {
         Moving, // 移動中
+        Selected,   // 選択中
         Broken, // 壊れる
     };
     
@@ -33,7 +34,7 @@ public:
     
     
     CC_SYNTHESIZE_READONLY(State, _state, State); // 弾の状態
-    CC_SYNTHESIZE_READONLY(int, m_tag, Tag); // 弾の状態
+    CC_SYNTHESIZE_READONLY(int, m_tag, Tag); // 弾の種類
 };
 
 #endif /* defined(__Puzzle2__Bullet__) */
