@@ -256,15 +256,18 @@ void GamePlayLayer::initTouchEvent()
 // 3. 距離が近いものそれぞれが、また２を行う。その時、すでにチェックしたやつは除外しないと無限ループ
 // 4. 全て確認が終わったら、その子達を光らせる
 
-bool GamePlayLayer::checkSelectableBullets (Bullet* target)
+bool GamePlayLayer::checkSelectableBullets (Bullet* target, bool isFirstTime)
 {
-    if (target == nullptr) {
+    if (isFirstTime) {
         auto enemies = m_layerBullet->getChildren();
         for (auto objs : enemies) {
             Bullet* bullet = (Bullet*)objs;
             bullet->setSelectableColor (false);
         }
         _selectableBullets.clear();
+    }
+    
+    if (target == nullptr) {
         return false;
     } else {
         auto enemies = m_layerBullet->getChildren();
@@ -279,7 +282,6 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target)
             // すでに選択可能としたものなのか？
             if (_selectableBullets.contains(bullet)) {
                 // 色変えなくていいはず
-                
             } else if (!_bullets.contains(bullet)) {
                 // 選択してない
                 //  選択可能なもので、可能な距離なのか？
@@ -289,7 +291,7 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target)
                         _selectableBullets.pushBack(bullet);
                         bullet->setSelectableColor(true);
                         // 選択可能なのもなので、そいつからまた選択可能なものがあるか確認する
-                        this->checkSelectableBullets(bullet);
+                        this->checkSelectableBullets(bullet, false);
                     } else {
                         bullet->setSelectableColor(false);
                     }
@@ -300,6 +302,16 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target)
                 _selectableBullets.pushBack(bullet);
                 // 選択してる, 今はとりあえず、ここで色を変える
                 bullet->setSelectableColor(true);
+                
+                if (isFirstTime) {
+                    float distance = bullet->getPosition().distance(target->getPosition());
+                    if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
+                        _selectableBullets.pushBack(bullet);
+                        bullet->setSelectableColor(true);
+                        // 選択可能なのもなので、そいつからまた選択可能なものがあるか確認する
+                        this->checkSelectableBullets(bullet, false);
+                    }
+                }
             }
 //            bullet->setSelectableColor ((bullet->getTag() == target->getTag()));
 //            PhysicsBody* pBall = bullet->getPhysicsBody();
@@ -325,7 +337,7 @@ bool GamePlayLayer::onTouchBegan(Touch* touch, Event* event)
         {
             Bullet* bullet = static_cast<Bullet*>(obj->getBody()->getNode());
             _tag = bullet->getTag();
-            this->checkSelectableBullets(bullet);
+            this->checkSelectableBullets(bullet, true);
             
             // ここでタッチしたものと繋げる事が出来る物を光らせる必要がある
             //
@@ -371,14 +383,14 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
         
         if (_bullets.empty()){ // 空
             _bullets.pushBack(bullet);
-            this->checkSelectableBullets(bullet);
+            this->checkSelectableBullets(bullet, true);
         } else if (!_bullets.contains(bullet)){ // 配列に入っていない
             // 距離の比較
             float distance = _bullets.back()->getPosition().distance(bullet->getPosition());
             //log("%f",distance);
             if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
                 _bullets.pushBack(bullet);
-                this->checkSelectableBullets(bullet);
+                this->checkSelectableBullets(bullet, true);
             }
         } else {
             // 配列にすでに入っていた
@@ -403,7 +415,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
 
 void GamePlayLayer::onTouchEnded(Touch* touch, Event* event)
 {
-    this->checkSelectableBullets (nullptr);
+    this->checkSelectableBullets (nullptr, true);
     // 2個以上で削除
     if (!_bullets.empty() && _bullets.size() > 2){
         for (auto* bullet : _bullets){
