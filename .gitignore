@@ -15,3 +15,5 @@ Classes/.DS_Store
 Classes/util/.DS_Store
 
 *.pbxproj
+
+proj.ios_mac/TestProject.xcodeproj/project.xcworkspace/xcuserdata/kimjinhyuck.xcuserdatad/UserInterfaceState.xcuserstate
