@@ -51,7 +51,7 @@ protected:
     UIDialog* _dialog;
     
     void initTouchEvent();
-    bool checkSelectableBullets (Bullet* target);
+    bool checkSelectableBullets (Bullet* target, bool isFirstTime);
     void showBullet();
     
     //void addLayer();
