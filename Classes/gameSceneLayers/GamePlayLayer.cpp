@@ -258,6 +258,7 @@ void GamePlayLayer::initTouchEvent()
 
 bool GamePlayLayer::checkSelectableBullets (Bullet* target, bool isFirstTime)
 {
+    // 最初に呼び出されたら、配列と色を初期化させる
     if (isFirstTime) {
         auto enemies = m_layerBullet->getChildren();
         for (auto objs : enemies) {
@@ -271,11 +272,7 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target, bool isFirstTime)
         return false;
     } else {
         auto enemies = m_layerBullet->getChildren();
-        // 次のターゲット
-            // Vector
         // bulletsにタグと色を設定して、自分に覚えさせる必要がある
-        // bulletsをgetChildrenするとき
-//        m_layerBullet->addChild(bullet,Z_Bullet,tagNum+2);
         for (auto objs : enemies) {
             Bullet* bullet = (Bullet*)objs;
             // _bullets すでに選択したものなのか見る
@@ -304,12 +301,12 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target, bool isFirstTime)
                 bullet->setSelectableColor(true);
                 
                 if (isFirstTime) {
-                    float distance = bullet->getPosition().distance(target->getPosition());
-                    if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
-                        _selectableBullets.pushBack(bullet);
-                        bullet->setSelectableColor(true);
-                        // 選択可能なのもなので、そいつからまた選択可能なものがあるか確認する
-                        this->checkSelectableBullets(bullet, false);
+                    if (bullet != target) {
+                        float distance = bullet->getPosition().distance(target->getPosition());
+                        if (distance < bullet->bulletSize * DISTANCE_SELECTABLE_SCALE){
+                            // 選択可能なのもなので、そいつからまた選択可能なものがあるか確認する
+                            this->checkSelectableBullets(bullet, false);
+                        }
                     }
                 }
             }
@@ -399,6 +396,7 @@ void GamePlayLayer::onTouchMoved(Touch* touch, Event* event)
                 Bullet* lastBullet = (_bullets.at(_bullets.size() - 2));
                 if (lastBullet == bullet) {
                     _bullets.erase(_bullets.find(_bullets.back()));
+                    this->checkSelectableBullets(bullet, true);
                 }
             }
         }
