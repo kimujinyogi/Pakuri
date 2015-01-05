@@ -299,7 +299,6 @@ bool GamePlayLayer::checkSelectableBullets (Bullet* target, bool isFirstTime)
                 _selectableBullets.pushBack(bullet);
                 // 選択してる, 今はとりあえず、ここで色を変える
                 bullet->setSelectableColor(true);
-                
                 if (isFirstTime) {
                     if (bullet != target) {
                         float distance = bullet->getPosition().distance(target->getPosition());
